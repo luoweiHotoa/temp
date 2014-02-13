@@ -1,0 +1,176 @@
+# You may add here your
+# server {
+#	...
+# }
+# statements for each of your virtual hosts to this file
+
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Maximum number of connections
+#events {
+#    worker_connections  1024;
+#}
+
+# Set the http server using its reverse proxy feature provides load balancing support
+    
+server {
+ 	listen      80;
+    server_name www.steedos.com developer.steedos.com beta.steedos.com cn.steedos.com;
+
+	
+	# Redirect all http request to https
+    return 301 https://$host$request_uri;
+}
+
+server {
+ 	listen      4020;
+    server_name www.steedos.com developer.steedos.com beta.steedos.com cn.steedos.com www.steedos.cn;
+
+	location / {
+	    root   /var/steedos/steedos-www/www;
+	    index  index.html index.htm;
+	    
+	    # Nginx: Fix to “405 Not Allowed” when using POST serving static
+	    error_page 405 = $uri;
+
+	    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+		add_header 'Access-Control-Allow-Credentials' 'true';
+		add_header 'Access-Control-Allow-Origin' $http_origin;
+		
+	    location ~ \.(html|htm)$ {
+	          # "pragma" is not a valid header here
+	          expires -1;
+	    }
+	}
+
+}
+
+# www server 
+server {
+	listen   443;
+	server_name  www.steedos.com developer.steedos.com beta.steedos.com cn.steedos.com;
+
+	ssl                  on;
+	ssl_certificate      /var/steedos/ssl/steedos.com-combined.crt;
+	ssl_certificate_key  /var/steedos/ssl/steedos.com.key;
+
+	ssl_session_timeout  5m;
+
+	ssl_protocols  SSLv2 SSLv3 TLSv1;
+	ssl_ciphers  HIGH:!aNULL:!MD5;
+	ssl_prefer_server_ciphers   on;
+
+	location / {
+	    root   /var/steedos/steedos-www/www;
+	    index  index.html index.htm;
+	    
+	    # Nginx: Fix to “405 Not Allowed” when using POST serving static
+	    error_page 405 = $uri;
+
+	    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+		add_header 'Access-Control-Allow-Credentials' 'true';
+		add_header 'Access-Control-Allow-Origin' $http_origin;
+		add_header 'Access-Control-Allow-Headers' 'X-Requested-With';
+		add_header 'Access-Control-Allow-Headers' 'X-SproutCore-Version';
+
+	}
+}
+
+server {
+	listen       443;
+	server_name test.steedos.com;
+
+	location /se {
+		proxy_pass http://127.0.0.1:2300/se;
+	    	add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /setup {
+		proxy_pass http://127.0.0.1:2300/setup;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /google {
+		proxy_pass http://127.0.0.1:2300/google;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /co {
+		proxy_pass http://127.0.0.1:2300/co;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /am {
+		proxy_pass http://127.0.0.1:3000/am;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /uf {
+		proxy_pass http://127.0.0.1:4000/uf;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /json {
+		proxy_pass http://127.0.0.1:2600/json;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /at {
+		proxy_pass http://127.0.0.1:5000/at;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /chat {
+		proxy_pass http://127.0.0.1:7000/chat;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /rd {
+		proxy_pass http://127.0.0.1:6000/rd;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+
+#### push server ####
+	location /registerAPNS {
+		proxy_pass http://127.0.0.1:2000/registerAPNS;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /unregisterAPNS {
+		proxy_pass http://127.0.0.1:2000/unregisterAPNS;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /registerGCM {
+		proxy_pass http://127.0.0.1:2000/registerGCM;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /unregisterGCM {
+		proxy_pass http://127.0.0.1:2000/unregisterGCM;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /registerTopics {
+		proxy_pass http://127.0.0.1:2000/registerTopics;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /unregisterTopics {
+		proxy_pass http://127.0.0.1:2000/unregisterTopics;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /message {
+		proxy_pass http://127.0.0.1:2000/message;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /getState {
+		proxy_pass http://127.0.0.1:2000/getState;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /getToken {
+		proxy_pass http://127.0.0.1:2000/getToken;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+	location /webcourier {
+		proxy_pass http://127.0.0.1:2000/webcourier;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
+}	
