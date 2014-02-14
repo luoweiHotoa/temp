@@ -1,4 +1,4 @@
-thin start -c /var/steedos/server-push -p 2300 -d
+thin start -c /var/steedos/server-push -p 2000 -d
 thin start -c /var/steedos/server-setup -p 2300 -d
 thin start -c /var/steedos/server-keyvalue -p 2600 -d
 thin start -c /var/steedos/server-space -p 3000 -d
