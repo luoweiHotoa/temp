@@ -136,7 +136,7 @@ server {
 		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
 	}
 	location /ta {
-		proxy_pass http://127.0.0.1:6000/ta;
+		proxy_pass http://127.0.0.1:2700/ta;
 		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
 	}
 
