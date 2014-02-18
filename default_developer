@@ -115,6 +115,10 @@ server {
 		proxy_pass http://127.0.0.1:4000/uf;
 		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
 	}
+	location /kv {
+		proxy_pass http://127.0.0.1:2600/json;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
 	location /json {
 		proxy_pass http://127.0.0.1:2600/json;
 		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
