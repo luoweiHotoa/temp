@@ -131,8 +131,16 @@ server {
 		proxy_pass http://127.0.0.1:6000/rd;
 		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
 	}
+	location /ta {
+		proxy_pass http://127.0.0.1:6000/ta;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
 
 #### push server ####
+	location /pu {
+		proxy_pass http://127.0.0.1:2000/pu;
+		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+	}
 	location /registerAPNS {
 		proxy_pass http://127.0.0.1:2000/registerAPNS;
 		add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
