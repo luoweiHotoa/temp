@@ -1,0 +1,9 @@
+sudo thin start -c /home/hotoa/server-push -p 2000 -d
+sudo thin start -c /home/hotoa/server-setup -p 2300 -d
+sudo thin start -c /home/hotoa/server-keyvalue -p 2600 -d
+sudo thin start -c /home/hotoa/server-space -p 3000 -d
+sudo thin start -c /home/hotoa/server-uuflow -p 4000 -d
+sudo thin start -c /home/hotoa/server-attachments -p 5000 -d
+sudo thin start -c /home/hotoa/server-forms -p 6000 -d
+sudo thin start -c /home/hotoa/server-chats -p 7000 -d
+sudo thin start -c /home/hotoa/server-reminders -p 2700 -d
